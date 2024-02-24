@@ -71,6 +71,10 @@ func draw(ctx context.Context, output io.Writer, patterns []string) error {
 		return err
 	}
 
-	fmt.Fprintln(output, graph)
+	_, err = fmt.Fprintln(output, graph)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
