@@ -15,6 +15,13 @@ import (
 	"github.com/FreeBirdLjj/callgraph/draw/dot"
 )
 
+type (
+	drawCommandFlags struct {
+		name   string
+		output string
+	}
+)
+
 func DrawCommand() *cobra.Command {
 
 	const (
@@ -22,39 +29,46 @@ func DrawCommand() *cobra.Command {
 		cmdDescription = "draw a callgraph of given packages"
 	)
 
-	outputStr := ""
+	drawCmdFlags := drawCommandFlags{}
 	drawCmd := cobra.Command{
 		Use:                   cmdName + " [flags] [packages]",
 		DisableFlagsInUseLine: true,
 		Short:                 cmdDescription,
 		Long:                  cmdDescription,
-		RunE: func(cmd *cobra.Command, args []string) error {
-
-			ctx := cmd.Context()
-
-			output := cmd.OutOrStdout()
-			if outputStr != "-" {
-				outputFile, err := os.Create(outputStr)
-				if err != nil {
-					return err
-				}
-				defer outputFile.Close()
-				output = outputFile
-			}
-
-			patterns := args
-			if len(patterns) == 0 {
-				patterns = []string{"."}
-			}
-
-			return draw(ctx, output, patterns)
-		},
+		RunE:                  wrapDrawCmdRunE(&drawCmdFlags),
 	}
-	drawCmd.Flags().StringVarP(&outputStr, "output", "o", "-", "write to file")
+
+	drawCmd.Flags().StringVar(&drawCmdFlags.name, "name", "G", "graph name")
+	drawCmd.Flags().StringVarP(&drawCmdFlags.output, "output", "o", "-", "write to file")
+
 	return &drawCmd
 }
 
-func draw(ctx context.Context, output io.Writer, patterns []string) error {
+func wrapDrawCmdRunE(flags *drawCommandFlags) func(cmd *cobra.Command, args []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+
+		ctx := cmd.Context()
+
+		output := cmd.OutOrStdout()
+		if flags.output != "-" {
+			outputFile, err := os.Create(flags.output)
+			if err != nil {
+				return err
+			}
+			defer outputFile.Close()
+			output = outputFile
+		}
+
+		patterns := args
+		if len(patterns) == 0 {
+			patterns = []string{"."}
+		}
+
+		return draw(ctx, flags.name, output, patterns)
+	}
+}
+
+func draw(ctx context.Context, name string, output io.Writer, patterns []string) error {
 
 	pkgs, err := packages.Load(&packages.Config{
 		Mode: -1,
@@ -66,7 +80,7 @@ func draw(ctx context.Context, output io.Writer, patterns []string) error {
 	ssaProg, _ := ssautil.AllPackages(pkgs, ssa.SanityCheckFunctions)
 	callg := static.CallGraph(ssaProg)
 
-	graph, err := dot.DrawCallGraphAsDotDigraph(callg, "G")
+	graph, err := dot.DrawCallGraphAsDotDigraph(callg, name)
 	if err != nil {
 		return err
 	}
