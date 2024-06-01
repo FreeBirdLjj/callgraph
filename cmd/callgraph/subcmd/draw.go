@@ -7,12 +7,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"golang.org/x/tools/go/callgraph/static"
-	"golang.org/x/tools/go/packages"
-	"golang.org/x/tools/go/ssa"
-	"golang.org/x/tools/go/ssa/ssautil"
 
 	"github.com/FreeBirdLjj/callgraph/draw/dot"
+	"github.com/FreeBirdLjj/callgraph/gencallgraph"
 )
 
 type (
@@ -70,15 +67,10 @@ func wrapDrawCmdRunE(flags *drawCommandFlags) func(cmd *cobra.Command, args []st
 
 func draw(ctx context.Context, name string, output io.Writer, patterns []string) error {
 
-	pkgs, err := packages.Load(&packages.Config{
-		Mode: -1,
-	}, patterns...)
+	callg, err := gencallgraph.GenCallGraphForPackages(ctx, patterns)
 	if err != nil {
 		return err
 	}
-
-	ssaProg, _ := ssautil.AllPackages(pkgs, ssa.SanityCheckFunctions)
-	callg := static.CallGraph(ssaProg)
 
 	graph, err := dot.DrawCallGraphAsDotDigraph(callg, name)
 	if err != nil {

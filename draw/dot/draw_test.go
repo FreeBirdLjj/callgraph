@@ -1,37 +1,28 @@
 package dot
 
 import (
-	go_ast "go/ast"
-	"go/importer"
-	"go/parser"
-	"go/token"
-	"go/types"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"golang.org/x/tools/go/callgraph/static"
-	"golang.org/x/tools/go/ssa"
-	"golang.org/x/tools/go/ssa/ssautil"
 	"gonum.org/v1/gonum/graph/formats/dot"
 	dot_ast "gonum.org/v1/gonum/graph/formats/dot/ast"
+
+	"github.com/FreeBirdLjj/callgraph/gencallgraph/gencallgraphtest"
+	"github.com/FreeBirdLjj/callgraph/internal/testcase"
 )
 
 func TestDrawCallGraphAsDotDigraph(t *testing.T) {
 
-	t.Parallel()
+	type testcaseT struct {
+		goSrc       string
+		expectedDot string
+	}
 
-	t.Run("single file cases", func(t *testing.T) {
-
-		t.Parallel()
-
-		testcases := []struct {
-			name        string
-			goSrc       string
-			expectedDot string
-		}{
-			{
-				name: "should succeed",
+	testcase.RunTestCases(
+		t,
+		map[string]testcaseT{
+			"should succeed": {
 				goSrc: `
 package main
 
@@ -48,8 +39,7 @@ strict digraph G {
 }
 `,
 			},
-			{
-				name: "should remove duplicates",
+			"should remove duplicates": {
 				goSrc: `
 package main
 
@@ -68,45 +58,26 @@ strict digraph G {
 	3 -> 2
 }`,
 			},
-		}
+		},
+		func(t *testing.T, testcase *testcaseT) {
 
-		for _, testcase := range testcases {
-			testcase := testcase
-			t.Run(testcase.name, func(t *testing.T) {
-
-				t.Parallel()
-
-				fset := token.NewFileSet()
-
-				f, err := parser.ParseFile(fset, "main.go", testcase.goSrc, parser.AllErrors)
-				require.NoError(t, err)
-
-				mainPkg, _, err := ssautil.BuildPackage(
-					&types.Config{
-						Importer: importer.Default(),
-					},
-					fset,
-					types.NewPackage("main", ""),
-					[]*go_ast.File{f},
-					ssa.SanityCheckFunctions,
-				)
-				require.NoError(t, err)
-
-				callg := static.CallGraph(mainPkg.Prog)
-
-				digraph, err := DrawCallGraphAsDotDigraph(callg, "G")
-				require.NoError(t, err)
-
-				expectedDot, err := dot.ParseString(testcase.expectedDot)
-				require.NoError(t, err)
-
-				expectedCallGraph := extractCallGraph(expectedDot.Graphs[0])
-				gotCallGraph := extractCallGraph(digraph)
-
-				assert.Equal(t, gotCallGraph, expectedCallGraph)
+			callg, err := gencallgraphtest.GenCallGraphForFiles(map[string]string{
+				"main/main.go": testcase.goSrc,
 			})
-		}
-	})
+			require.NoError(t, err)
+
+			digraph, err := DrawCallGraphAsDotDigraph(callg, "G")
+			require.NoError(t, err)
+
+			expectedDot, err := dot.ParseString(testcase.expectedDot)
+			require.NoError(t, err)
+
+			expectedCallGraph := extractCallGraph(expectedDot.Graphs[0])
+			gotCallGraph := extractCallGraph(digraph)
+
+			assert.Equal(t, expectedCallGraph, gotCallGraph)
+		},
+	)
 }
 
 func extractCallGraph(graph *dot_ast.Graph) map[string]string {
