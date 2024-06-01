@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/tools/go/ssa"
 
-	"github.com/FreeBirdLjj/callgraph/gencallgraph/gencallgraphtest"
-	"github.com/FreeBirdLjj/callgraph/internal/testcase"
+	"github.com/freebirdljj/callgraph/gencallgraph/gencallgraphtest"
+	"github.com/freebirdljj/callgraph/internal/testcase"
 )
 
 func TestStatisticsCallGraphAtFuncLevel(t *testing.T) {

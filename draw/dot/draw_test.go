@@ -8,8 +8,8 @@ import (
 	"gonum.org/v1/gonum/graph/formats/dot"
 	dot_ast "gonum.org/v1/gonum/graph/formats/dot/ast"
 
-	"github.com/FreeBirdLjj/callgraph/gencallgraph/gencallgraphtest"
-	"github.com/FreeBirdLjj/callgraph/internal/testcase"
+	"github.com/freebirdljj/callgraph/gencallgraph/gencallgraphtest"
+	"github.com/freebirdljj/callgraph/internal/testcase"
 )
 
 func TestDrawCallGraphAsDotDigraph(t *testing.T) {

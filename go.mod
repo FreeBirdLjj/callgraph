@@ -1,4 +1,4 @@
-module github.com/FreeBirdLjj/callgraph
+module github.com/freebirdljj/callgraph
 
 go 1.21
 

@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/tools/go/callgraph"
 
-	"github.com/FreeBirdLjj/callgraph/internal/testcase"
+	"github.com/freebirdljj/callgraph/internal/testcase"
 )
 
 func TestGenCallGraphForFiles(t *testing.T) {
