@@ -1,0 +1,136 @@
+#+TITLE: callgraph
+
+This repository currently provides 1 command =callgraph= (=./cmd/callgraph=) to analyze Go codes with call graphs.
+
+* Command: =callgraph=
+
+The command =callgraph= (=./cmd/callgraph=) provides some subcommands.
+
+** Subcommand: =draw=
+
+Example command:
+
+#+BEGIN_SRC bash
+$ callgraph draw unicode
+#+END_SRC
+
+Output:
+
+#+BEGIN_SRC dot
+strict digraph G {
+        8 [label="(unicode.SpecialCase).ToTitle"]
+        11 [label="unicode.ToUpper"]
+        12 [label="unicode.To"]
+        16 [label="unicode.IsNumber"]
+        25 [label="unicode.init"]
+        2 [label="(unicode.SpecialCase).ToUpper"]
+        3 [label="unicode.is16"]
+        5 [label="unicode.isExcludingLatin"]
+        31 [label="unicode.IsGraphic"]
+        22 [label="unicode.IsOneOf"]
+        32 [label="unicode.IsLetter"]
+        13 [label="unicode.IsSpace"]
+        17 [label="(unicode.SpecialCase).ToLower"]
+        21 [label="unicode.IsUpper"]
+        23 [label="unicode.IsDigit"]
+        24 [label="unicode.IsSymbol"]
+        26 [label="unicode.IsPunct"]
+        6 [label="unicode.IsPrint"]
+        10 [label="unicode.ToTitle"]
+        15 [label="unicode.is32"]
+        28 [label="unicode.IsControl"]
+        29 [label="unicode.IsMark"]
+        1 [label="(*unicode.SpecialCase).ToUpper"]
+        4 [label="unicode.IsTitle"]
+        27 [label="unicode.IsLower"]
+        18 [label="unicode.ToLower"]
+        19 [label="(*unicode.SpecialCase).ToTitle"]
+        20 [label="unicode.SimpleFold"]
+        30 [label="(*unicode.SpecialCase).ToLower"]
+        7 [label="unicode.In"]
+        9 [label="unicode.to"]
+        14 [label="unicode.Is"]
+        17 -> 9
+        12 -> 9
+        18 -> 12
+        17 -> 18
+        30 -> 17
+        14 -> 3
+        14 -> 15
+        7 -> 14
+        8 -> 9
+        10 -> 12
+        8 -> 10
+        19 -> 8
+        20 -> 18
+        11 -> 12
+        20 -> 11
+        5 -> 3
+        5 -> 15
+        16 -> 5
+        2 -> 9
+        2 -> 11
+        31 -> 7
+        13 -> 5
+        21 -> 5
+        22 -> 14
+        32 -> 5
+        23 -> 5
+        6 -> 7
+        24 -> 5
+        26 -> 14
+        1 -> 2
+        4 -> 5
+        27 -> 5
+        29 -> 5
+}
+#+END_SRC
+
+The above `dot` graph would generate the following png:
+
+[[file:./assets/draw_unicode.png]]
+
+** Subcommand: =statistics=
+
+Example command:
+
+#+BEGIN_SRC bash
+$ callgraph statistics unicode
+#+END_SRC
+
+Output:
+
+#+BEGIN_SRC text
+-----------------------------------------------------
+FUNC                          REFS REF FUNCS REF PKGS
+-----------------------------------------------------
+(unicode.SpecialCase).ToLower    1         1        1
+(unicode.SpecialCase).ToTitle    1         1        1
+(unicode.SpecialCase).ToUpper    1         1        1
+unicode.In                       2         2        1
+unicode.Is                       3         3        1
+unicode.IsControl                0         0        0
+unicode.IsDigit                  0         0        0
+unicode.IsGraphic                0         0        0
+unicode.IsLetter                 0         0        0
+unicode.IsLower                  0         0        0
+unicode.IsMark                   0         0        0
+unicode.IsNumber                 0         0        0
+unicode.IsOneOf                  0         0        0
+unicode.IsPrint                  0         0        0
+unicode.IsPunct                  0         0        0
+unicode.IsSpace                  0         0        0
+unicode.IsSymbol                 0         0        0
+unicode.IsTitle                  0         0        0
+unicode.IsUpper                  0         0        0
+unicode.SimpleFold               0         0        0
+unicode.To                       3         3        1
+unicode.ToLower                  2         2        1
+unicode.ToTitle                  1         1        1
+unicode.ToUpper                  2         2        1
+unicode.is16                     2         2        1
+unicode.is32                     2         2        1
+unicode.isExcludingLatin         9         9        1
+unicode.to                       4         4        1
+-----------------------------------------------------
+#+END_SRC
