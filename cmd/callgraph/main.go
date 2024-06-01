@@ -15,6 +15,7 @@ func rootCmd() *cobra.Command {
 
 	subcmds := []*cobra.Command{
 		subcmd.DrawCommand(),
+		subcmd.StatisticsCommand(),
 	}
 
 	rootCmd := cobra.Command{
