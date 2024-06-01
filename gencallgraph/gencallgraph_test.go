@@ -8,7 +8,7 @@ import (
 	"golang.org/x/tools/go/callgraph"
 	"golang.org/x/tools/go/packages/packagestest"
 
-	"github.com/FreeBirdLjj/callgraph/internal/testcase"
+	"github.com/freebirdljj/callgraph/internal/testcase"
 )
 
 func Test_genCallgraphForPackages(t *testing.T) {

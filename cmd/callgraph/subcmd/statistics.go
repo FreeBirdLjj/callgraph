@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 	"golang.org/x/tools/go/ssa"
 
-	"github.com/FreeBirdLjj/callgraph/gencallgraph"
-	"github.com/FreeBirdLjj/callgraph/statistics"
+	"github.com/freebirdljj/callgraph/gencallgraph"
+	"github.com/freebirdljj/callgraph/statistics"
 )
 
 type (

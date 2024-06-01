@@ -8,8 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/FreeBirdLjj/callgraph/draw/dot"
-	"github.com/FreeBirdLjj/callgraph/gencallgraph"
+	"github.com/freebirdljj/callgraph/draw/dot"
+	"github.com/freebirdljj/callgraph/gencallgraph"
 )
 
 type (

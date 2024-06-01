@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/FreeBirdLjj/callgraph/cmd/callgraph/subcmd"
+	"github.com/freebirdljj/callgraph/cmd/callgraph/subcmd"
 )
 
 func rootCmd() *cobra.Command {
