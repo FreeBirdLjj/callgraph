@@ -86,7 +86,7 @@ strict digraph G {
 }
 #+END_SRC
 
-The above `dot` graph would generate the following png:
+The above =dot= graph would generate the following png:
 
 [[file:./assets/draw_unicode.png]]
 
