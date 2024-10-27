@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/freebirdljj/immutable v0.0.0-20240526032624-8b1f539f3ecd
 	github.com/jedib0t/go-pretty/v6 v6.6.1
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/tools v0.21.0
 	gonum.org/v1/gonum v0.15.0
