@@ -1,6 +1,6 @@
 module github.com/freebirdljj/callgraph
 
-go 1.23
+go 1.24.0
 
 require (
 	github.com/freebirdljj/immutable v0.0.0-20240526032624-8b1f539f3ecd
