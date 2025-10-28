@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/freebirdljj/immutable v0.0.0-20240526032624-8b1f539f3ecd
-	github.com/jedib0t/go-pretty/v6 v6.6.8
+	github.com/jedib0t/go-pretty/v6 v6.6.9
 	github.com/spf13/cobra v1.10.1
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/tools v0.38.0
