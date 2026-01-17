@@ -9,7 +9,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/tools v0.41.0
 	golang.org/x/tools/go/packages/packagestest v0.1.1-deprecated
-	gonum.org/v1/gonum v0.16.0
+	gonum.org/v1/gonum v0.17.0
 )
 
 require (
