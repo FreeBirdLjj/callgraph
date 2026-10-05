@@ -7,7 +7,7 @@ require (
 	github.com/jedib0t/go-pretty/v6 v6.8.3
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.12.1
-	golang.org/x/tools v0.50.0
+	golang.org/x/tools v0.51.0
 	golang.org/x/tools/go/packages/packagestest v0.1.1-deprecated
 	gonum.org/v1/gonum v0.17.0
 )
