@@ -51,6 +51,15 @@ jobs:
     - name: Vet
       run: go vet ./...
 
+    - name: Vulnerability scan
+      uses: golang/govulncheck-action@v1
+      with:
+        go-version-input: ${{ matrix.go-version }}
+        check-latest: false
+        cache: false
+        repo-checkout: false
+        go-package: ./...
+
     - name: Check changes
       run: git diff-index --quiet HEAD
 
